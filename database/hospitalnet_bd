@@ -1,0 +1,363 @@
+BEGIN;
+
+
+CREATE TABLE IF NOT EXISTS public.alertas_urgencia
+(
+    id_alerta serial NOT NULL,
+    id_paciente integer,
+    mensaje character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    creado_por integer,
+    activa boolean NOT NULL DEFAULT true,
+    creado_en timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    atendida_en timestamp without time zone,
+    CONSTRAINT alertas_urgencia_pkey PRIMARY KEY (id_alerta)
+);
+
+CREATE TABLE IF NOT EXISTS public.bitacora_auditoria
+(
+    id_log serial NOT NULL,
+    id_usuario character varying(50) COLLATE pg_catalog."default",
+    tipo_evento character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    descripcion text COLLATE pg_catalog."default",
+    entidad_afectada character varying(100) COLLATE pg_catalog."default",
+    id_entidad_afectada character varying(50) COLLATE pg_catalog."default",
+    resultado character varying(20) COLLATE pg_catalog."default" DEFAULT 'EXITOSO'::character varying,
+    ip_origen character varying(45) COLLATE pg_catalog."default",
+    fecha_hora timestamp without time zone NOT NULL DEFAULT now(),
+    CONSTRAINT bitacora_auditoria_pkey PRIMARY KEY (id_log)
+);
+
+CREATE TABLE IF NOT EXISTS public.captcha_sesiones
+(
+    captcha_id character varying(64) COLLATE pg_catalog."default" NOT NULL,
+    codigo character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    expira_en timestamp without time zone NOT NULL,
+    CONSTRAINT captcha_sesiones_pkey PRIMARY KEY (captcha_id)
+);
+
+CREATE TABLE IF NOT EXISTS public.cargos
+(
+    id_cargo serial NOT NULL,
+    id_paciente integer NOT NULL,
+    id_cita integer,
+    concepto character varying(150) COLLATE pg_catalog."default" NOT NULL,
+    monto numeric(10, 2) NOT NULL,
+    tipo_medico character varying(15) COLLATE pg_catalog."default" NOT NULL,
+    estado character varying(15) COLLATE pg_catalog."default" NOT NULL DEFAULT 'Pendiente'::character varying,
+    creado_en timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    pagado_en timestamp without time zone,
+    CONSTRAINT cargos_pkey PRIMARY KEY (id_cargo)
+);
+
+CREATE TABLE IF NOT EXISTS public.citas
+(
+    id_cita serial NOT NULL,
+    id_paciente integer NOT NULL,
+    id_medico integer NOT NULL,
+    fecha_hora timestamp without time zone NOT NULL,
+    estado character varying(20) COLLATE pg_catalog."default" DEFAULT 'Programada'::character varying,
+    motivo_cancelacion character varying(255) COLLATE pg_catalog."default",
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    tipo character varying(20) COLLATE pg_catalog."default" DEFAULT 'primera_vez'::character varying,
+    estado_pago character varying(20) COLLATE pg_catalog."default" DEFAULT 'Pendiente'::character varying,
+    CONSTRAINT citas_pkey PRIMARY KEY (id_cita)
+);
+
+CREATE TABLE IF NOT EXISTS public.consultas
+(
+    id_consulta serial NOT NULL,
+    id_paciente integer NOT NULL,
+    id_medico integer NOT NULL,
+    id_signos_vitales integer NOT NULL,
+    motivo_consulta text COLLATE pg_catalog."default" NOT NULL,
+    exploracion_fisica text COLLATE pg_catalog."default" NOT NULL,
+    codigo_cie10 character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    diagnostico_descripcion text COLLATE pg_catalog."default" NOT NULL,
+    observaciones text COLLATE pg_catalog."default",
+    activa boolean DEFAULT true,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT consultas_pkey PRIMARY KEY (id_consulta)
+);
+
+CREATE TABLE IF NOT EXISTS public.consultas_medicas
+(
+    id_consulta serial NOT NULL,
+    id_paciente integer NOT NULL,
+    id_medico integer NOT NULL,
+    diagnostico character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    cie10 character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    notas_evolucion text COLLATE pg_catalog."default" NOT NULL,
+    receta_medica text COLLATE pg_catalog."default" NOT NULL,
+    fecha_consulta timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    laboratorios text COLLATE pg_catalog."default",
+    id_cita integer,
+    CONSTRAINT consultas_medicas_pkey PRIMARY KEY (id_consulta)
+);
+
+CREATE TABLE IF NOT EXISTS public.expedientes_pacientes
+(
+    id_paciente integer NOT NULL DEFAULT nextval('expedientes_pacientes_id_seq'::regclass),
+    nombre character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    apellidos character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    edad integer NOT NULL,
+    sexo character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    tipo_sangre character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    telefono character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    alergias text COLLATE pg_catalog."default" NOT NULL,
+    medico_asignado integer NOT NULL,
+    CONSTRAINT expedientes_pacientes_pkey PRIMARY KEY (id_paciente)
+);
+
+CREATE TABLE IF NOT EXISTS public.interconsultas
+(
+    id_interconsulta serial NOT NULL,
+    id_paciente integer NOT NULL,
+    id_medico_emisor integer NOT NULL,
+    id_medico_receptor integer NOT NULL,
+    motivo_clinico text COLLATE pg_catalog."default" NOT NULL,
+    estado character varying(20) COLLATE pg_catalog."default" DEFAULT 'Pendiente'::character varying,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    especialidad character varying(80) COLLATE pg_catalog."default",
+    fecha_alta timestamp without time zone,
+    CONSTRAINT interconsultas_pkey PRIMARY KEY (id_interconsulta)
+);
+
+CREATE TABLE IF NOT EXISTS public.medicos
+(
+    id_medico serial NOT NULL,
+    nombre character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    fecha_alta date NOT NULL DEFAULT CURRENT_DATE,
+    sexo character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    curp character(18) COLLATE pg_catalog."default" NOT NULL,
+    telefono character varying(15) COLLATE pg_catalog."default" NOT NULL,
+    correo_institucional character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    especialidad character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    horario character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    cedula_profesional character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    password character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT medicos_pkey PRIMARY KEY (id_medico),
+    CONSTRAINT uk_medico_cedula UNIQUE (cedula_profesional),
+    CONSTRAINT uk_medico_correo UNIQUE (correo_institucional),
+    CONSTRAINT uk_medico_curp UNIQUE (curp)
+);
+
+CREATE TABLE IF NOT EXISTS public.ordenes_servicio
+(
+    id_orden serial NOT NULL,
+    id_paciente integer NOT NULL,
+    id_medico_emisor integer NOT NULL,
+    tipo_estudio character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    nombre_prueba character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    prioridad character varying(10) COLLATE pg_catalog."default" NOT NULL DEFAULT 'Media'::character varying,
+    justificacion character varying(255) COLLATE pg_catalog."default",
+    estado character varying(20) COLLATE pg_catalog."default" NOT NULL DEFAULT 'Solicitada'::character varying,
+    fecha_solicitud timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_resultado timestamp without time zone,
+    CONSTRAINT ordenes_servicio_pkey PRIMARY KEY (id_orden)
+);
+
+CREATE TABLE IF NOT EXISTS public.prescripciones
+(
+    id_prescripcion serial NOT NULL,
+    id_consulta integer NOT NULL,
+    medicamento character varying(150) COLLATE pg_catalog."default" NOT NULL,
+    dosis character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    frecuencia character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    duracion character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT prescripciones_pkey PRIMARY KEY (id_prescripcion)
+);
+
+CREATE TABLE IF NOT EXISTS public.recuperacion_contrasena
+(
+    id_solicitud serial NOT NULL,
+    id_usuario integer NOT NULL,
+    token character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    expira_en timestamp without time zone NOT NULL,
+    usado boolean DEFAULT false,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT recuperacion_contrasena_pkey PRIMARY KEY (id_solicitud)
+);
+
+CREATE TABLE IF NOT EXISTS public.resultados_estudios
+(
+    id_estudio serial NOT NULL,
+    id_paciente integer NOT NULL,
+    tipo_estudio character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    nombre_prueba character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    valor_numerico numeric(8, 2) NOT NULL,
+    unidad_medida character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    rango_min_referencia numeric(8, 2) NOT NULL,
+    rango_max_referencia numeric(8, 2) NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    id_orden integer,
+    capturado_por integer,
+    CONSTRAINT resultados_estudios_pkey PRIMARY KEY (id_estudio)
+);
+
+CREATE TABLE IF NOT EXISTS public.roles
+(
+    id_rol serial NOT NULL,
+    nombre_rol character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    descripcion character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT roles_pkey PRIMARY KEY (id_rol),
+    CONSTRAINT uk_nombre_rol UNIQUE (nombre_rol)
+);
+
+CREATE TABLE IF NOT EXISTS public.sesiones_activas
+(
+    id_sesion serial NOT NULL,
+    token character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    id_usuario integer NOT NULL,
+    expira_en timestamp without time zone NOT NULL,
+    CONSTRAINT sesiones_activas_pkey PRIMARY KEY (id_sesion)
+);
+
+CREATE TABLE IF NOT EXISTS public.signos_vitales
+(
+    id_signos_vitales serial NOT NULL,
+    id_paciente integer NOT NULL,
+    frecuencia_cardiaca integer NOT NULL,
+    presion_arterial character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    temperatura numeric(4, 2) NOT NULL,
+    peso numeric(5, 2) NOT NULL,
+    estatura numeric(3, 2) NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT signos_vitales_pkey PRIMARY KEY (id_signos_vitales)
+);
+
+CREATE TABLE IF NOT EXISTS public.usuarios
+(
+    id_usuario serial NOT NULL,
+    id_rol integer NOT NULL,
+    email character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    password_hash character varying(60) COLLATE pg_catalog."default" NOT NULL,
+    activo boolean DEFAULT true,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT usuarios_pkey PRIMARY KEY (id_usuario),
+    CONSTRAINT uk_email UNIQUE (email)
+);
+
+ALTER TABLE IF EXISTS public.alertas_urgencia
+    ADD CONSTRAINT alertas_urgencia_creado_por_fkey FOREIGN KEY (creado_por)
+    REFERENCES public.usuarios (id_usuario) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.alertas_urgencia
+    ADD CONSTRAINT alertas_urgencia_id_paciente_fkey FOREIGN KEY (id_paciente)
+    REFERENCES public.expedientes_pacientes (id_paciente) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.cargos
+    ADD CONSTRAINT cargos_id_cita_fkey FOREIGN KEY (id_cita)
+    REFERENCES public.citas (id_cita) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.cargos
+    ADD CONSTRAINT cargos_id_paciente_fkey FOREIGN KEY (id_paciente)
+    REFERENCES public.expedientes_pacientes (id_paciente) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.citas
+    ADD CONSTRAINT fk_citas_medicos FOREIGN KEY (id_medico)
+    REFERENCES public.medicos (id_medico) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE RESTRICT;
+
+
+ALTER TABLE IF EXISTS public.consultas
+    ADD CONSTRAINT fk_consultas_medicos FOREIGN KEY (id_medico)
+    REFERENCES public.medicos (id_medico) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE RESTRICT;
+
+
+ALTER TABLE IF EXISTS public.consultas
+    ADD CONSTRAINT fk_consultas_signos FOREIGN KEY (id_signos_vitales)
+    REFERENCES public.signos_vitales (id_signos_vitales) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE RESTRICT;
+
+
+ALTER TABLE IF EXISTS public.consultas_medicas
+    ADD CONSTRAINT consultas_medicas_id_cita_fkey FOREIGN KEY (id_cita)
+    REFERENCES public.citas (id_cita) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.consultas_medicas
+    ADD CONSTRAINT fk_consultas_pacientes FOREIGN KEY (id_paciente)
+    REFERENCES public.expedientes_pacientes (id_paciente) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.interconsultas
+    ADD CONSTRAINT fk_inter_emisor FOREIGN KEY (id_medico_emisor)
+    REFERENCES public.medicos (id_medico) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE RESTRICT;
+
+
+ALTER TABLE IF EXISTS public.interconsultas
+    ADD CONSTRAINT fk_inter_receptor FOREIGN KEY (id_medico_receptor)
+    REFERENCES public.medicos (id_medico) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE RESTRICT;
+
+
+ALTER TABLE IF EXISTS public.medicos
+    ADD CONSTRAINT fk_medicos_usuarios FOREIGN KEY (id_medico)
+    REFERENCES public.usuarios (id_usuario) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+CREATE INDEX IF NOT EXISTS medicos_pkey
+    ON public.medicos(id_medico);
+
+
+ALTER TABLE IF EXISTS public.ordenes_servicio
+    ADD CONSTRAINT ordenes_servicio_id_medico_emisor_fkey FOREIGN KEY (id_medico_emisor)
+    REFERENCES public.medicos (id_medico) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.ordenes_servicio
+    ADD CONSTRAINT ordenes_servicio_id_paciente_fkey FOREIGN KEY (id_paciente)
+    REFERENCES public.expedientes_pacientes (id_paciente) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.prescripciones
+    ADD CONSTRAINT fk_prescripciones_consultas FOREIGN KEY (id_consulta)
+    REFERENCES public.consultas (id_consulta) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+
+
+ALTER TABLE IF EXISTS public.recuperacion_contrasena
+    ADD CONSTRAINT fk_usuario FOREIGN KEY (id_usuario)
+    REFERENCES public.usuarios (id_usuario) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+
+
+ALTER TABLE IF EXISTS public.usuarios
+    ADD CONSTRAINT fk_usuarios_roles FOREIGN KEY (id_rol)
+    REFERENCES public.roles (id_rol) MATCH SIMPLE
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT;
+
+END;

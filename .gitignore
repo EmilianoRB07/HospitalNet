@@ -1,0 +1,52 @@
+# Python
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+backend/*.pyo
+backend/*.pyd
+backend/.Python
+backend/*.so
+backend/*.egg
+backend/*.egg-info/
+backend/dist/
+backend/build/
+backend/*.log
+
+# Node
+frontend/node_modules/
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.pnpm-debug.log*
+frontend/dist/
+frontend/.DS_Store
+
+# Variables de entorno
+backend/.env
+backend/.env.local
+backend/.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Base de datos
+*.db
+*.sqlite
+*.sqlite3
+
+# Reportes y PDFs temporales
+*.pdf
+*.docx
+!docs/*.pdf    # Excepto los que estén en docs/
+
+# Archivos del sistema
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Logs
+*.log
