@@ -1,3 +1,92 @@
+**No, wey.** Te falta la mitad del archivo. Así como lo tienes, **está incompleto**. Te faltan:
+
+- La configuración de la base de datos
+- El backend
+- El frontend
+- Las credenciales
+- El equipo
+- La licencia
+
+---
+
+## 📄 **Esto es lo que TE FALTA agregar (después de donde terminaste):**
+
+```markdown
+```
+
+### 2. Configurar la Base de Datos
+```bash
+# Crear la base de datos en PostgreSQL
+psql -U postgres -c "CREATE DATABASE hospitalnet_db;"
+
+# Ejecutar el script de creación
+psql -U postgres -d hospitalnet_db -f database/hospitalnet_bd
+```
+
+### 3. Backend
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+# Crear archivo .env con:
+# DATABASE_URL=postgresql://postgres:admin@localhost:5432/hospitalnet_db
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+El backend estará en: `http://localhost:8000`
+
+### 4. Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+El frontend estará en: `http://localhost:5173`
+
+## 🔑 Credenciales de Prueba
+
+| Usuario | Email | Contraseña | Rol |
+|---------|-------|------------|-----|
+| Admin | admin@hospitalnet.com | Admin1234 | Administrador |
+| Médico General | medico@hospitalnet.com | Admin1234 | Médico General |
+| Médico Especialista | aramirez@hospitalnet.com | Admin1234 | Médico Especialista |
+
+## 📁 Estructura del Proyecto
+
+```
+HospitalNet/
+├── backend/           # API FastAPI
+├── frontend/          # React + TypeScript
+├── database/          # Scripts SQL
+│   └── hospitalnet_bd
+├── docs/              # Documentación
+│   ├── pruebas.md
+│   ├── diagrama_bd.png
+│   └── evidencias/
+└── README.md
+```
+
+## 👥 Equipo de Desarrollo
+
+- **Galeana Garcia Ariana**
+- **Macias Martinez Arturo Yael**
+- **Ramirez Blanco Emiliano**
+- **Vargas Hernández Keila**
+
+**Grupo:** 5CV1 | **Ciclo:** 2026-2 | **ESCOM - IPN**
+
+## 📄 Licencia
+
+MIT License - ver el archivo [LICENSE](LICENSE)
+```
+
+---
+
+## ✅ **Tu README completo debe verse así:**
+
+```markdown
 # 🏥 HospitalNet - Sistema de Gestión Hospitalaria
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115.6-009688?logo=fastapi)](https://fastapi.tiangolo.com)
@@ -27,18 +116,85 @@ HospitalNet es un sistema centralizado de gestión clínica y administrativa dis
 | **Frontend** | React, TypeScript, Vite |
 | **Seguridad** | bcrypt, JWT, CAPTCHA |
 
-## 🚀 Instalación Rápida
+## 📋 Requisitos Previos
 
-### Requisitos
 - Python 3.10+
 - Node.js 18+
 - PostgreSQL 14+
+- Git
 
-### Backend
+## 🚀 Instalación y Ejecución
+
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/EmilianoRB07/HospitalNet.git
+cd HospitalNet
+```
+
+### 2. Configurar la Base de Datos
+```bash
+# Crear la base de datos en PostgreSQL
+psql -U postgres -c "CREATE DATABASE hospitalnet_db;"
+
+# Ejecutar el script de creación
+psql -U postgres -d hospitalnet_db -f database/hospitalnet_bd
+```
+
+### 3. Backend
 ```bash
 cd backend
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-# Copiar .env.example a .env y configurar
+# Crear archivo .env con:
+# DATABASE_URL=postgresql://postgres:admin@localhost:5432/hospitalnet_db
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+El backend estará en: `http://localhost:8000`
+
+### 4. Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+El frontend estará en: `http://localhost:5173`
+
+## 🔑 Credenciales de Prueba
+
+| Usuario | Email | Contraseña | Rol |
+|---------|-------|------------|-----|
+| Admin | admin@hospitalnet.com | Admin1234 | Administrador |
+| Médico General | medico@hospitalnet.com | Admin1234 | Médico General |
+| Médico Especialista | aramirez@hospitalnet.com | Admin1234 | Médico Especialista |
+
+## 📁 Estructura del Proyecto
+
+```
+HospitalNet/
+├── backend/           # API FastAPI
+├── frontend/          # React + TypeScript
+├── database/          # Scripts SQL
+│   └── hospitalnet_bd
+├── docs/              # Documentación
+│   ├── pruebas.md
+│   ├── diagrama_bd.png
+│   └── evidencias/
+└── README.md
+```
+
+## 👥 Equipo de Desarrollo
+
+- **Galeana Garcia Ariana**
+- **Macias Martinez Arturo Yael**
+- **Ramirez Blanco Emiliano**
+- **Vargas Hernández Keila**
+
+**Grupo:** 5CV1 | **Ciclo:** 2026-2 | **ESCOM - IPN**
+
+## 📄 Licencia
+
+MIT License - ver el archivo [LICENSE](LICENSE)
+```
