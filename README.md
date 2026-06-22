@@ -14,7 +14,7 @@ Todos los archivos requeridos por el profesor se encuentran en la carpeta [`Docs
 | 📄 Documento de Pruebas (PDF) | [`Docs/pruebas.pdf`](./Docs/pruebas.pdf) |
 | 📋 Requerimientos del Sistema | [`Docs/requerimientos_proyecto_5CV1.pdf`](./Docs/requerimientos_proyecto_5CV1.pdf) |
 | 🗄️ Diagrama de Base de Datos | [`Docs/diagrama_bd.png`](./Docs/diagrama_bd.png) |
-| 📊 Evidencias (capturas) | [`Docs/evidencias/`](./Docs/evidencias/) |
+| 📊 Evidencias (capturas) | [`Docs/Evidencias/`](./Docs/Evidencias/) |
 | 📁 Presentación del Proyecto | [`Docs/Presentacion_Proyecto_ADS.pdf`](./Docs/Presentacion_Proyecto_ADS.pdf) |
 | 🗃️ Script de Base de Datos | [`database/hospitalnet_bd`](./database/hospitalnet_bd) |
 
