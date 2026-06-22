@@ -410,3 +410,33 @@ INSERT INTO public.roles (nombre_rol, descripcion) VALUES
     ('Médico General', 'Atención primaria y ambulatoria'),
     ('Médico Especialista', 'Atención de segundo nivel')
 ON CONFLICT (nombre_rol) DO NOTHING;
+
+-- 2. Insertar usuario Admin (contraseña: Admin1234)
+INSERT INTO usuarios (id_rol, email, password_hash, activo) VALUES 
+    (1, 'admin@hospitalnet.com', '$2b$12$Ze0cnJEyhN.VOQw4b5euhuV2MfJuDkUNB89h4vfA0W5LSrNkBTRL6', true)
+ON CONFLICT (email) DO NOTHING;
+
+-- 3. Insertar médico Admin (vinculado al usuario)
+INSERT INTO medicos (id_medico, nombre, correo_institucional, especialidad) VALUES 
+    (1, 'Administrador', 'admin@hospitalnet.com', 'Administrador')
+ON CONFLICT (id_medico) DO NOTHING;
+
+-- 4. Insertar Médico General (contraseña: Admin1234)
+INSERT INTO usuarios (id_rol, email, password_hash, activo) VALUES 
+    (2, 'gsilva@hospitalnet.com', '$2b$12$Ze0cnJEyhN.VOQw4b5euhuV2MfJuDkUNB89h4vfA0W5LSrNkBTRL6', true)
+ON CONFLICT (email) DO NOTHING;
+
+-- 5. Insertar médico General (vinculado)
+INSERT INTO medicos (id_medico, nombre, correo_institucional, especialidad) VALUES 
+    (11, 'Gabriel Silva', 'gsilva@hospitalnet.com', 'Medicina General')
+ON CONFLICT (id_medico) DO NOTHING;
+
+-- 6. Insertar Médico Especialista (contraseña: Admin1234)
+INSERT INTO usuarios (id_rol, email, password_hash, activo) VALUES 
+    (3, 'fmendez@hospitalnet.com', '$2b$12$Ze0cnJEyhN.VOQw4b5euhuV2MfJuDkUNB89h4vfA0W5LSrNkBTRL6', true)
+ON CONFLICT (email) DO NOTHING;
+
+-- 7. Insertar médico Especialista (vinculado)
+INSERT INTO medicos (id_medico, nombre, correo_institucional, especialidad) VALUES 
+    (10, 'Fabiola Méndez', 'fmendez@hospitalnet.com', 'Ginecología')
+ON CONFLICT (id_medico) DO NOTHING;
