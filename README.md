@@ -76,8 +76,8 @@ El frontend estará en: `http://localhost:5173`
 | Usuario | Email | Contraseña | Rol |
 |---------|-------|------------|-----|
 | Admin | admin@hospitalnet.com | Admin1234 | Administrador |
-| Médico General | medico@hospitalnet.com | Admin1234 | Médico General |
-| Médico Especialista | aramirez@hospitalnet.com | Admin1234 | Médico Especialista |
+| Médico General | gsilva@hospitalnet.com | Admin1234 | Médico General |
+| Médico Especialista | fmendez@hospitalnet.com | Admin1234 | Médico Especialista |
 
 ## 📁 Estructura del Proyecto
 
