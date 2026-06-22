@@ -48,7 +48,7 @@ psql -U postgres -c "CREATE DATABASE hospitalnet_db;"
 
 # Ejecutar el script de creación
 psql -U postgres -d hospitalnet_db -f database/hospitalnet_bd
-```
+
 
 ### 3. Backend
 ```bash
@@ -59,7 +59,7 @@ pip install -r requirements.txt
 # Crear archivo .env con:
 # DATABASE_URL=postgresql://postgres:admin@localhost:5432/hospitalnet_db
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
+
 
 El backend estará en: `http://localhost:8000`
 
@@ -68,7 +68,7 @@ El backend estará en: `http://localhost:8000`
 cd frontend
 npm install
 npm run dev
-```
+
 
 El frontend estará en: `http://localhost:5173`
 
