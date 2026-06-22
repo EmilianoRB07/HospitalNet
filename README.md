@@ -6,16 +6,16 @@
 
 ## 📂 Documentación del Proyecto
 
-Todos los archivos requeridos por el profesor se encuentran en la carpeta [`docs/`](./docs):
+Todos los archivos requeridos por el profesor se encuentran en la carpeta [`Docs/`](./Docs):
 
 | Documento | Archivo |
 |-----------|---------|
-| 📄 Manual de Usuario (PDF) | [`docs/manual_usuario.pdf`](./docs/manual_usuario.pdf) |
-| 📄 Documento de Pruebas (PDF) | [`docs/pruebas.pdf`](./docs/pruebas.pdf) |
-| 📋 Requerimientos del Sistema | [`docs/requerimientos_proyecto_5CV1.pdf`](./docs/requerimientos_proyecto_5CV1.pdf) |
-| 🗄️ Diagrama de Base de Datos | [`docs/diagrama_bd.png`](./docs/diagrama_bd.png) |
-| 📊 Evidencias (capturas) | [`docs/evidencias/`](./docs/evidencias/) |
-| 📁 Presentación del Proyecto | [`docs/Presentacion_Proyecto_ADS.pdf`](./docs/Presentacion_Proyecto_ADS.pdf) |
+| 📄 Manual de Usuario (PDF) | [`Docs/manual_usuario.pdf`](./Docs/manual_usuario.pdf) |
+| 📄 Documento de Pruebas (PDF) | [`Docs/pruebas.pdf`](./Docs/pruebas.pdf) |
+| 📋 Requerimientos del Sistema | [`Docs/requerimientos_proyecto_5CV1.pdf`](./Docs/requerimientos_proyecto_5CV1.pdf) |
+| 🗄️ Diagrama de Base de Datos | [`Docs/diagrama_bd.png`](./Docs/diagrama_bd.png) |
+| 📊 Evidencias (capturas) | [`Docs/evidencias/`](./Docs/evidencias/) |
+| 📁 Presentación del Proyecto | [`Docs/Presentacion_Proyecto_ADS.pdf`](./Docs/Presentacion_Proyecto_ADS.pdf) |
 | 🗃️ Script de Base de Datos | [`database/hospitalnet_bd`](./database/hospitalnet_bd) |
 
 ## 📋 Descripción
@@ -101,11 +101,11 @@ funcionamiento del sistema.
 
 ```
 HospitalNet/
-├── backend/           # API FastAPI
-├── frontend/          # React + TypeScript
+├── Backend/           # API FastAPI
+├── Frontend/          # React + TypeScript
 ├── database/          # Scripts SQL
 │   └── hospitalnet_bd
-├── docs/              # Documentación
+├── Docs/              # Documentación
 │   ├── pruebas.md
 │   ├── diagrama_bd.png
 │   └── evidencias/
