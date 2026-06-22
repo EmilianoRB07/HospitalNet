@@ -4,6 +4,20 @@
 [![React](https://img.shields.io/badge/React-18.3.1-61DAFB?logo=react)](https://reactjs.org)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?logo=postgresql)](https://www.postgresql.org)
 
+## 📂 Documentación del Proyecto
+
+Todos los archivos requeridos por el profesor se encuentran en la carpeta [`docs/`](./docs):
+
+| Documento | Archivo |
+|-----------|---------|
+| 📄 Manual de Usuario (PDF) | [`docs/manual_usuario.pdf`](./docs/manual_usuario.pdf) |
+| 📄 Documento de Pruebas (PDF) | [`docs/pruebas.pdf`](./docs/pruebas.pdf) |
+| 📋 Requerimientos del Sistema | [`docs/requerimientos_proyecto_5CV1.pdf`](./docs/requerimientos_proyecto_5CV1.pdf) |
+| 🗄️ Diagrama de Base de Datos | [`docs/diagrama_bd.png`](./docs/diagrama_bd.png) |
+| 📊 Evidencias (capturas) | [`docs/evidencias/`](./docs/evidencias/) |
+| 📁 Presentación del Proyecto | [`docs/Presentacion_Proyecto_ADS.pdf`](./docs/Presentacion_Proyecto_ADS.pdf) |
+| 🗃️ Script de Base de Datos | [`database/hospitalnet_bd`](./database/hospitalnet_bd) |
+
 ## 📋 Descripción
 
 HospitalNet es un sistema centralizado de gestión clínica y administrativa diseñado para un hospital privado de especialidades de segundo nivel. Automatiza los flujos de trabajo de médicos generales y especialistas, reemplazando procesos basados en papel por una plataforma digital segura e integrada.
