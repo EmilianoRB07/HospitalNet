@@ -70,6 +70,10 @@ npm install
 npm run dev
 El frontend estará en: `http://localhost:5173`
 ```
+### 5. Notas Importantes
+El archivo hospitalnet_bd ya trae datos de prueba para que se inserten en la bd, pero igual
+puede registrar pacientes, signos vitales y citas, igual puede usar postman para ver el 
+funcionamiento del sistema.
 
 ## 🔑 Credenciales de Prueba
 

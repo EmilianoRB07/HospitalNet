@@ -440,3 +440,41 @@ ON CONFLICT (email) DO NOTHING;
 INSERT INTO medicos (id_medico, nombre, correo_institucional, especialidad) VALUES 
     (10, 'Fabiola Méndez', 'fmendez@hospitalnet.com', 'Ginecología')
 ON CONFLICT (id_medico) DO NOTHING;
+
+-- ============================================
+-- DATOS DE PRUEBA (Pacientes, Citas, Signos)
+-- ============================================
+
+-- 1. PACIENTES
+INSERT INTO expedientes_pacientes (nombre, apellidos, edad, sexo, tipo_sangre, telefono, alergias, medico_asignado) VALUES
+    ('Juan', 'Pérez', 45, 'Masculino', 'A+', '555-1001', 'Ninguna', 11),
+    ('María', 'García', 32, 'Femenino', 'O-', '555-1002', 'Penicilina', 11),
+    ('Carlos', 'López', 58, 'Masculino', 'B+', '555-1003', 'Ninguna', 11),
+    ('Ana', 'Martínez', 27, 'Femenino', 'AB+', '555-1004', 'Polen', 10),
+    ('Luis', 'Hernández', 63, 'Masculino', 'A-', '555-1005', 'Ninguna', 10)
+ON CONFLICT DO NOTHING;
+
+-- 2. CITAS (PAGADAS Y PENDIENTES)
+INSERT INTO citas (id_paciente, id_medico, fecha_hora, estado, estado_pago) VALUES
+    -- Citas pagadas (para que el médico general pueda iniciar consulta)
+    (1, 11, '2026-06-21 09:00:00', 'Programada', 'Pagado'),
+    (2, 11, '2026-06-21 10:30:00', 'Programada', 'Pagado'),
+    (3, 11, '2026-06-21 12:00:00', 'Programada', 'Pagado'),
+    
+    -- Citas sin pago (para probar ERR-03)
+    (4, 11, '2026-06-21 14:00:00', 'Programada', 'Pendiente'),
+    (5, 11, '2026-06-21 15:30:00', 'Programada', 'Pendiente'),
+    
+    -- Citas para especialista (Fabiola Méndez)
+    (1, 10, '2026-06-21 11:00:00', 'Programada', 'Pagado_Especialidad'),
+    (2, 10, '2026-06-21 13:00:00', 'Programada', 'Pagado_Especialidad')
+ON CONFLICT DO NOTHING;
+
+-- 3. SIGNOS VITALES (para que el médico los vea en la consulta)
+INSERT INTO signos_vitales (id_paciente, frecuencia_cardiaca, presion_arterial, temperatura, peso, estatura) VALUES
+    (1, 72, '120/80', 36.5, 75.5, 1.75),
+    (2, 68, '110/70', 36.8, 68.0, 1.65),
+    (3, 85, '140/90', 37.2, 92.0, 1.70),
+    (4, 70, '115/75', 36.4, 60.0, 1.60),
+    (5, 90, '150/95', 37.5, 88.0, 1.72)
+ON CONFLICT DO NOTHING;
