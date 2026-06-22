@@ -107,4 +107,3 @@ HospitalNet/
 ## 📄 Licencia
 
 MIT License - ver el archivo [LICENSE](LICENSE)
-```
